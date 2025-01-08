@@ -1,0 +1,16 @@
+# Security
+.env
+.env.local
+config.json
+api_keys.json
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Development
+.vscode/
+.idea/
+*.log
