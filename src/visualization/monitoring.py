@@ -5,21 +5,18 @@ from rich.panel import Panel
 from rich.layout import Layout
 from datetime import datetime
 
-console = Console()
-
 class QuantumAgentMonitor:
     def __init__(self, config):
         self.config = config
         self.layout = Layout()
         self.agents_status = {}
         self.quantum_metrics = {}
+        self.console = Console()
         
     async def initialize_visualization(self):
-        console.clear()
-        console.print("[bold blue]Quantum Agent System Initialization[/bold blue]")
-        console.print("Preparing quantum space...\n")
+        self.console.clear()
+        self.console.print("[bold blue]Quantum Agent System Initialization[/bold blue]")
         
-        # Setup visual layout
         self.layout.split_column(
             Layout(name="header"),
             Layout(name="body"),
@@ -33,37 +30,98 @@ class QuantumAgentMonitor:
 
     async def start_agents(self):
         async with Live(self.layout, refresh_per_second=4) as live:
-            # Initialize Agents
-            agents = {
-                'coherence': CoherenceAgent(self.config),
-                'phase': PhaseAgent(self.config),
-                'energy': EnergyAgent(self.config),
-                'optimizer': OptimizerAgent(self.config),
-                'coordinator': CoordinatorAgent(self.config)
-            }
+            await self._initialize_agents(live)
+            await self._monitor_quantum_states(live)
             
-            # Start agent initialization sequence
-            for name, agent in agents.items():
-                await self._initialize_agent(name, agent, live)
+    async def _initialize_agents(self, live):
+        """Initialize each agent with proper status tracking"""
+        agent_types = ['coherence', 'phase', 'energy', 'optimizer', 'coordinator']
+        
+        for agent_type in agent_types:
+            self.console.print(f"[cyan]Initializing {agent_type} Agent...[/cyan]")
+            self.agents_status[agent_type] = "Initializing..."
+            await self._update_display(live)
+            
+            try:
+                # Simulate agent initialization
+                await asyncio.sleep(1)  # Gives visual feedback
+                self.agents_status[agent_type] = "✅ Active"
+                self.quantum_metrics[agent_type] = {
+                    'coherence': 0.0,
+                    'energy': 0.0,
+                    'phase': 0.0
+                }
+                await self._update_display(live)
                 
-            # Begin quantum state monitoring
-            await self._monitor_quantum_states(agents, live)
+            except Exception as e:
+                self.agents_status[agent_type] = f"❌ Error: {str(e)}"
+                await self._update_display(live)
 
-# Configuration
-config = {
-    'api_key': 'YOUR_API_KEY_HERE',
-    'quantum_params': {
-        'micro_lag': 0.000009,
-        'wavelet_base': 17,
-        'compton_base': 43.00826,
-        'entropy_weight': 0.85,
-        'coherence_threshold': 1.014000,
-        'hma_length': 53
+    async def _monitor_quantum_states(self, live):
+        """Monitor and update quantum states for all agents"""
+        while True:
+            try:
+                # Update quantum metrics for each agent
+                for agent_type in self.quantum_metrics:
+                    metrics = await self._get_agent_metrics(agent_type)
+                    self.quantum_metrics[agent_type] = metrics
+                
+                await self._update_display(live)
+                await asyncio.sleep(1)
+                
+            except Exception as e:
+                self.console.print(f"[red]Error in quantum monitoring: {str(e)}[/red]")
+                
+    async def _get_agent_metrics(self, agent_type):
+        """Simulate getting metrics from agents"""
+        import random
+        return {
+            'coherence': random.uniform(0.7, 1.0),
+            'energy': random.uniform(0.6, 1.0),
+            'phase': random.uniform(0.8, 1.0)
+        }
+
+    async def _update_display(self, live):
+        """Update the display with current system status"""
+        # Update agents panel
+        agents_content = "\n".join(
+            f"{name}: {status}"
+            for name, status in self.agents_status.items()
+        )
+        
+        # Update quantum states panel
+        quantum_content = "\n".join(
+            f"{name}:\n" +
+            f"  Coherence: {metrics.get('coherence', 0):.3f}\n" +
+            f"  Energy: {metrics.get('energy', 0):.3f}\n" +
+            f"  Phase: {metrics.get('phase', 0):.3f}"
+            for name, metrics in self.quantum_metrics.items()
+        )
+        
+        # Update layout
+        self.layout["header"].update(
+            Panel(f"Quantum Agent System Monitor - {datetime.now().strftime('%H:%M:%S')}")
+        )
+        self.layout["agents"].update(Panel(agents_content, title="Agents Status"))
+        self.layout["quantum_states"].update(Panel(quantum_content, title="Quantum Metrics"))
+
+# Example usage
+async def main():
+    config = {
+        'api_key': 'GC7TAP6TZJ91HA84',
+        'quantum_params': {
+            'micro_lag': 0.000009,
+            'wavelet_base': 17,
+            'compton_base': 43.00826,
+            'entropy_weight': 0.85,
+            'coherence_threshold': 1.014000,
+            'hma_length': 53
+        }
     }
-}
-
-# Start the system
-if __name__ == "__main__":
+    
     monitor = QuantumAgentMonitor(config)
-    asyncio.run(monitor.initialize_visualization())
-    asyncio.run(monitor.start_agents())
+    await monitor.initialize_visualization()
+    await monitor.start_agents()
+
+if __name__ == "__main__":
+    asyncio.run(main())
