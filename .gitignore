@@ -1,16 +1,17 @@
-# Security
-.env
-.env.local
-config.json
-api_keys.json
-secrets/
-
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Development
+# Environment
+.env
+.venv
+env/
+venv/
+
+# IDE
 .vscode/
 .idea/
+
+# Logs
 *.log

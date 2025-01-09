@@ -2,20 +2,9 @@
   "alpha_vantage": {
     "api_key": "GC7TAP6TZJ91HA84",
     "endpoints": {
-      "daily": {
-        "function": "DIGITAL_CURRENCY_DAILY",
-        "required_fields": ["1. open", "2. high", "3. low", "4. close"]
-      },
-      "weekly": {
-        "function": "DIGITAL_CURRENCY_WEEKLY",
-        "required_fields": ["1. open", "2. high", "3. low", "4. close"]
-      },
-      "monthly": {
-        "function": "DIGITAL_CURRENCY_MONTHLY",
-        "required_fields": ["1. open", "2. high", "3. low", "4. close"]
-      }
-    },
-    "symbol": "BTC",
-    "market": "USD"
+      "daily": "DIGITAL_CURRENCY_DAILY",
+      "weekly": "DIGITAL_CURRENCY_WEEKLY",
+      "monthly": "DIGITAL_CURRENCY_MONTHLY"
+    }
   }
 }

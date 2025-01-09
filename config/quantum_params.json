@@ -1,0 +1,8 @@
+{
+  "micro_lag": 0.000009,
+  "wavelet_base": 17,
+  "compton_base": 43.00826,
+  "entropy_weight": 0.85,
+  "coherence_threshold": 1.014000,
+  "hma_length": 53
+}
