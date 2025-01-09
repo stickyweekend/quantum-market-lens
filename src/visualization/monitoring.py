@@ -83,13 +83,11 @@ class QuantumAgentMonitor:
 
     async def _update_display(self, live):
         """Update the display with current system status"""
-        # Update agents panel
         agents_content = "\n".join(
             f"{name}: {status}"
             for name, status in self.agents_status.items()
         )
         
-        # Update quantum states panel
         quantum_content = "\n".join(
             f"{name}:\n" +
             f"  Coherence: {metrics.get('coherence', 0):.3f}\n" +
@@ -98,7 +96,6 @@ class QuantumAgentMonitor:
             for name, metrics in self.quantum_metrics.items()
         )
         
-        # Update layout
         self.layout["header"].update(
             Panel(f"Quantum Agent System Monitor - {datetime.now().strftime('%H:%M:%S')}")
         )
