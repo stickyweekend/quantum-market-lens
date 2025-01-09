@@ -29,7 +29,7 @@ class QuantumAgentMonitor:
         )
 
     async def start_agents(self):
-        async with Live(self.layout, refresh_per_second=4) as live:
+        with Live(self.layout, refresh_per_second=4) as live:
             await self._initialize_agents(live)
             await self._monitor_quantum_states(live)
             
