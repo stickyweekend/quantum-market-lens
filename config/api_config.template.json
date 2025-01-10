@@ -1,0 +1,10 @@
+{
+  "alpha_vantage": {
+    "api_key": "YOUR_API_KEY_HERE",
+    "endpoints": {
+      "daily": "DIGITAL_CURRENCY_DAILY",
+      "weekly": "DIGITAL_CURRENCY_WEEKLY",
+      "monthly": "DIGITAL_CURRENCY_MONTHLY"
+    }
+  }
+}
